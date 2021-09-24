@@ -21,7 +21,7 @@ GET /diffhunter/inconsistency
 Response:
 ```json
 {
-	"inconsistency_value": 20.155 //example
+	"inconsistency_value": 20.155
 }
 ```
 - Endpoint for returning the comparison between two databases
