@@ -38,4 +38,9 @@ Response:
 	"targets": []
 }
 ```
+- Differences in Tables (Endpoint)
+- Differences in Primary Keys for a common table (Endpoint)
+- Differences in Foreign Keys for a common table (Endpoint)
+- Differences in Indexes for a common table (Endpoint)
+- Differences in Columns for a common table (Endpoint)
 - Frontend
