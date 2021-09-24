@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 
 
-
 def inconsistency():
     pass
 
