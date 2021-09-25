@@ -1,12 +1,5 @@
 from flask import Flask, jsonify, request
 from diffhunterfunctions import compare_database
-from jsonschema import Draft7Validator
-from jsonschema.exceptions import best_match
-import body_scheme
-
-
-def validate_schema(schema, instance):
-    return best_match(Draft7Validator(schema).iter_errors(instance))
 
 
 app = Flask(__name__)
