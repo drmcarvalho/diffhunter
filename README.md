@@ -5,8 +5,7 @@ An app with focus on normalization, equalization and database scheme migration f
 # Requirements
 - [flask](https://github.com/pallets/flask)
 - [sqlalchemy-dff](https://github.com/gianchub/sqlalchemy-diff)
-
-Python >= 3.8.5
+- Python >= 3.8.5
 
 ---
 

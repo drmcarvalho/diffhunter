@@ -21,7 +21,7 @@ def diff_database():
     if not body:
         return jsonify(error={"mensagem": "parametros invalidos"}), 400
 
-    result = compare_database(body["origin"]["uri"], body["target"]["uri"])
+    result = compare_database(body["origin"]["uri"], body["target"]["uri"], body['ignores'])
     return jsonify(response={"diff": result.errors, "match": result.is_match})
 
 
