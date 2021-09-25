@@ -1,9 +1,12 @@
 from flask import Flask, jsonify, request
 from diffhunterfunctions import compare_database
+from jsonschema import Draft7Validator
+from jsonschema.exceptions import best_match
+import schema
 
 
-def invalid_parameters():
-    return {"mensagem": "parametros invalidos"}
+def validate_schema(schema, instance):
+    return best_match(Draft7Validator(schema).iter_errors(instance).message)
 
 
 app = Flask(__name__)
@@ -22,8 +25,9 @@ def inconsistency_with_multiple_databases():
 @app.route("/diffhunter/diff_database")
 def diff_database():
     body = request.get_json()
-    if not body:
-        return jsonify(error=invalid_parameters()), 400
+    validate_result = validate_schema(schema.scheme_diff_database, body)
+    if validate_result:
+        return jsonify(errors=validate_result), 400
 
     compare_result = compare_database(
         body["origin"]["uri"], body["target"]["uri"], body["ignores"]
