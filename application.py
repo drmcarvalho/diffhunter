@@ -7,11 +7,7 @@ app = Flask(__name__)
 
 @app.route("/diffhunter/inconsistency")
 def inconsistency():
-    body = request.get_json()
-    if not body:
-        return jsonify(error={"mensagem": "parametros invalidos"}), 400
-    result = compare_database(body["origin"]["uri"], body["target"]["uri"])
-    return jsonify(response={"diff": result.errors, "match": result.is_match})
+    pass
 
 
 @app.route("/diffhunter/inconsistency_with_multiple_databases")
@@ -21,7 +17,12 @@ def inconsistency_with_multiple_databases():
 
 @app.route("/diffhunter/diff_database")
 def diff_database():
-    pass
+    body = request.get_json()
+    if not body:
+        return jsonify(error={"mensagem": "parametros invalidos"}), 400
+
+    result = compare_database(body["origin"]["uri"], body["target"]["uri"])
+    return jsonify(response={"diff": result.errors, "match": result.is_match})
 
 
 @app.route("/diffhunter/diff_with_multiple_databases")
