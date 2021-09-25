@@ -30,8 +30,8 @@ def diff_database():
         return jsonify(error={"message": "Invalid URI"})
     if not origin_uri:
         return jsonify(error={"message": "Invalid URI"})
-    compare_result = compare_database(origin_uri, uri_target)
-    return jsonify(response={"diff": compare_result.errors,"match": compare_result.is_match,})
+    compare_result = compare_database(origin_uri, target_uri)
+    return jsonify(response={"diff": compare_result.errors,"match": compare_result.is_match})
 
 
 @app.route("/diffhunter/diff_with_multiple_databases")
@@ -41,6 +41,6 @@ def diff_with_multiple_databases():
     result = {}
     result["diff_list"] = []
     for target_uri in target_uri_list:
-        compare_result = compare_database(origin_uri, uri_target)
+        compare_result = compare_database(origin_uri, target_uri)
         result["diff_list"].append({"diff": compare_result.errors, "match": compare_result.is_match})
     return jsonify(response=result)
