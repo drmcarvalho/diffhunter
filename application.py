@@ -33,15 +33,21 @@ def diff_database():
         body["origin"]["uri"], body["target"]["uri"], body["ignores"]
     )
     return jsonify(
-        response={"diff": compare_result.errors, "match": compare_result.is_match}
+        response={
+            "diff": compare_result.errors,
+            "match": compare_result.is_match,
+        }
     )
 
 
 @app.route("/diffhunter/diff_with_multiple_databases")
 def diff_with_multiple_databases():
     body = request.get_json()
-    if not body:
-        return jsonify(error=invalid_parameters()), 400
+    validate_result = validate_schema(
+        body_scheme.scheme_diff_with_multiple_databases, body
+    )
+    if validate_result:
+        return jsonify(errors=validate_result), 400
     result = {}
     result["diffs"] = []
     origin_database = body["origin"]["database_name"]
@@ -49,7 +55,9 @@ def diff_with_multiple_databases():
     uri_origin = body["origin"]["uri"]
     uri_target = body["target"]["uri"]
     for target in targets:
-        compare_result = compare_database(uri_origin, uri_target, body["ignores"])
+        compare_result = compare_database(
+            uri_origin, uri_target, body["ignores"]
+        )
         result["result"].append(
             {"diff": compare_result.errors, "match": compare_result.is_match}
         )
