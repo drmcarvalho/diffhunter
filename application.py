@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request
 from diffhunterfunctions import compare_database
 from jsonschema import Draft7Validator
 from jsonschema.exceptions import best_match
-import schema
+import body_scheme
 
 
 def validate_schema(schema, instance):
@@ -25,7 +25,7 @@ def inconsistency_with_multiple_databases():
 @app.route("/diffhunter/diff_database")
 def diff_database():
     body = request.get_json()
-    validate_result = validate_schema(schema.scheme_diff_database, body)
+    validate_result = validate_schema(body_scheme.scheme_diff_database, body)
     if validate_result:
         return jsonify(errors=validate_result), 400
 
