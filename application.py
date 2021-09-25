@@ -6,7 +6,7 @@ import body_scheme
 
 
 def validate_schema(schema, instance):
-    return best_match(Draft7Validator(schema).iter_errors(instance).message)
+    return best_match(Draft7Validator(schema).iter_errors(instance))
 
 
 app = Flask(__name__)
@@ -24,41 +24,23 @@ def inconsistency_with_multiple_databases():
 
 @app.route("/diffhunter/diff_database")
 def diff_database():
-    body = request.get_json()
-    validate_result = validate_schema(body_scheme.scheme_diff_database, body)
-    if validate_result:
-        return jsonify(errors=validate_result), 400
-
-    compare_result = compare_database(
-        body["origin"]["uri"], body["target"]["uri"], body["ignores"]
-    )
-    return jsonify(
-        response={
-            "diff": compare_result.errors,
-            "match": compare_result.is_match,
-        }
-    )
+    target_uri = request.form.get("target_uri", None)
+    origin_uri = request.form.get("origin_uri", None)
+    if not target_uri:
+        return jsonify(error={"message": "Invalid URI"})
+    if not origin_uri:
+        return jsonify(error={"message": "Invalid URI"})
+    compare_result = compare_database(origin_uri, uri_target)
+    return jsonify(response={"diff": compare_result.errors,"match": compare_result.is_match,})
 
 
 @app.route("/diffhunter/diff_with_multiple_databases")
 def diff_with_multiple_databases():
-    body = request.get_json()
-    validate_result = validate_schema(
-        body_scheme.scheme_diff_with_multiple_databases, body
-    )
-    if validate_result:
-        return jsonify(errors=validate_result), 400
+    origin_uri = request.form.get("origin_uri", None)
+    target_uri_list = request.form.getlist("target_uri_list")
     result = {}
-    result["diffs"] = []
-    origin_database = body["origin"]["database_name"]
-    targets = body["target"]["databases"]
-    uri_origin = body["origin"]["uri"]
-    uri_target = body["target"]["uri"]
-    for target in targets:
-        compare_result = compare_database(
-            uri_origin, uri_target, body["ignores"]
-        )
-        result["result"].append(
-            {"diff": compare_result.errors, "match": compare_result.is_match}
-        )
+    result["diff_list"] = []
+    for target_uri in target_uri_list:
+        compare_result = compare_database(origin_uri, uri_target)
+        result["diff_list"].append({"diff": compare_result.errors, "match": compare_result.is_match})
     return jsonify(response=result)
