@@ -2,6 +2,10 @@ from flask import Flask, jsonify, request
 from diffhunterfunctions import compare_database
 
 
+def invalid_parameters():
+    return {"mensagem": "parametros invalidos"}
+
+
 app = Flask(__name__)
 
 
@@ -19,12 +23,30 @@ def inconsistency_with_multiple_databases():
 def diff_database():
     body = request.get_json()
     if not body:
-        return jsonify(error={"mensagem": "parametros invalidos"}), 400
+        return jsonify(error=invalid_parameters()), 400
 
-    result = compare_database(body["origin"]["uri"], body["target"]["uri"], body['ignores'])
-    return jsonify(response={"diff": result.errors, "match": result.is_match})
+    compare_result = compare_database(
+        body["origin"]["uri"], body["target"]["uri"], body["ignores"]
+    )
+    return jsonify(
+        response={"diff": compare_result.errors, "match": compare_result.is_match}
+    )
 
 
 @app.route("/diffhunter/diff_with_multiple_databases")
 def diff_with_multiple_databases():
-    pass
+    body = request.get_json()
+    if not body:
+        return jsonify(error=invalid_parameters()), 400
+    result = {}
+    result["diffs"] = []
+    origin_database = body["origin"]["database_name"]
+    targets = body["target"]["databases"]
+    uri_origin = body["origin"]["uri"]
+    uri_target = body["target"]["uri"]
+    for target in targets:
+        compare_result = compare_database(uri_origin, uri_target, body["ignores"])
+        result["result"].append(
+            {"diff": compare_result.errors, "match": compare_result.is_match}
+        )
+    return jsonify(response=result)
