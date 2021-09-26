@@ -9,11 +9,15 @@ from sqlalchemy.exc import OperationalError
 def compare_database(uri_origin, uri_target, ignores=None):
     return compare(uri_origin, uri_target, ignores=ignores)
 
+
 def calculate_value_inconsistency(total_diff=0):
     return Decimal(total_diff / 100 / math.e)
 
+
 def determine_value_inconsistency(diff):
-    pass
+    total_diff = diff['result']['diff'].keys()
+    return calculate_value_inconsistency(total_diff)
+
 
 def try_connect(uri):
     try:

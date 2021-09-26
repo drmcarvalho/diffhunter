@@ -77,4 +77,14 @@ diff = {
     }
 }
 
-print(diffhunterfunctions.calculate_value_inconsistency(690))
+diff_empty = {
+    "result": {
+        "diff": {},
+        "match": True
+    }
+}
+
+print(len(diff_empty['result']['diff'].keys()))
+print(len(diff['result']['diff'].keys()))
+
+print(diffhunterfunctions.calculate_value_inconsistency(5))
