@@ -13,7 +13,8 @@ An app with focus on normalization, equalization and database scheme migration f
 
 # TODO
 
-- [ ] Endpoint for calculating the inconsistency value
+- [x] Endpoint for calculating the inconsistency value
+- [ ] Endpoint for calculating the inconsistency value between mutiple databases
 - [x] Endpoint for returning the comparison between two databases
 - [ ] Endpoint for returning the comparison between mutiple databases
 - [ ] Endpoint for differences in Tables
