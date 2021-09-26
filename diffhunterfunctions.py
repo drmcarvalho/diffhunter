@@ -15,7 +15,7 @@ def calculate_value_inconsistency(total_diff=0):
 
 
 def determine_value_inconsistency(diff):
-    total_diff = diff['result']['diff'].keys()
+    total_diff = len(diff.keys())
     return calculate_value_inconsistency(total_diff)
 
 
