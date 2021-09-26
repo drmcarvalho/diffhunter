@@ -20,3 +20,4 @@ An app with focus on normalization, equalization and database scheme migration f
 - [ ] Endpoint for differences in Foreign Keys for a common table
 - [ ] Endpoint for differences in Indexes for a common table
 - [ ] Endpoint for differences in Columns for a common table
+- [ ] Swagger for documentantion the API
