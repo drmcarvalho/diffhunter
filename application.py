@@ -15,10 +15,10 @@ def inconsistency_with_multiple_databases():
     pass
 
 
-@app.route("/diffhunter/diff_database")
+@app.route("/diffhunter/diff_database", methods=['post'])
 def diff_database():
-    target_uri = request.form.get("target_uri", None)
-    origin_uri = request.form.get("origin_uri", None)
+    target_uri = request.form.get("target_uri_left", None)
+    origin_uri = request.form.get("origin_uri_right", None)
     if not target_uri:
         return jsonify(error={"message": "Invalid URI"}), 400
     if not origin_uri:

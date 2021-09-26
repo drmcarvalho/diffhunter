@@ -1,8 +1,3 @@
-import body_scheme
-from application import validate_schema
-from jsonschema import Draft7Validator
-
-
 # def test_scheme_diff_database():
 #     v = validate_schema(body_scheme.scheme_diff_database, {"o": 55})
 #     print(v)
@@ -14,9 +9,9 @@ from jsonschema import Draft7Validator
 #         },
 #     )
 
-v = Draft7Validator(body_scheme.scheme_diff_database)
-errors = sorted(v.iter_errors({"o": 55}), key=lambda e: e.path)
+# v = Draft7Validator(body_scheme.scheme_diff_database)
+# errors = sorted(v.iter_errors({"o": 55}), key=lambda e: e.path)
 
-if errors:
-    for error in errors:
-        print(error)
+# if errors:
+#     for error in errors:
+#         print(error)
