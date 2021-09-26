@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from diffhunterfunctions import compare_database
+from diffhunterfunctions import compare_database, try_connect
 
 
 app = Flask(__name__)
@@ -23,6 +23,10 @@ def diff_database():
         return jsonify(error={"message": "Invalid URI"}), 400
     if not origin_uri:
         return jsonify(error={"message": "Invalid URI"}), 400
+    if not try_connect(target_uri):
+        return jsonify(error={"message": "Could not connect to target database"}), 400
+    if not try_connect(origin_uri):
+        return jsonify(error={"message": "Could not connect to origin database"}), 400        
     compare_result = compare_database(origin_uri, target_uri)
     return jsonify(result={"diff": compare_result.errors,"match": compare_result.is_match}), 200
 
